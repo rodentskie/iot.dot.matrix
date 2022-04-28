@@ -1,0 +1,20 @@
+$primary: #2f6cdf;
+$secondary: #455a64;
+
+// Body
+$font-family-sans-serif: 'Rubik', system-ui, -apple-system, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, 'Noto Sans', 'Liberation Sans', sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$body-bg: rgba(250, 245, 255, 0.5);
+$body-color: #272c33;
+
+// Buttons
+$btn-font-weight: 700;
+
+// Headings
+$headings-color: $primary;
+$headings-font-weight: 700;
+
+// Links
+$link-decoration: underline dotted;
+$link-hover-decoration: underline;

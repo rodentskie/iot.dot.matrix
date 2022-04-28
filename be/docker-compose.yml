@@ -1,0 +1,12 @@
+version: '3.2'
+services:
+  mongo:
+    image: mongo:4.4.4-bionic
+    ports:
+      - 27017:27017
+    container_name: mongo
+    network_mode: default
+networks:
+  default:
+    external:
+      name: bridge

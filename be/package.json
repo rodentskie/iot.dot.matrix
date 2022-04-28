@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "async-exit-hook": "^2.0.1",
     "koa": "^2.13.4",
+    "mongoose": "^5.13.5",
     "ws": "^8.5.0"
   }
 }
