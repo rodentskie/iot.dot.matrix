@@ -5,7 +5,7 @@
       <div class="col-md-auto">
         <div class="card center">
           <div class="card-body">
-            <h1 class="card-title flex" style="color: black; font-size: 14rem">
+            <h1 class="card-title" style="color: black; font-size: 8rem">
               {{ msg }}
             </h1>
 
@@ -134,6 +134,8 @@ export default {
       if (broadcast) {
         console.log("I'm the receiver.")
       }
+      if (!msgs) return
+
       this.msg = msgs
     })
   },

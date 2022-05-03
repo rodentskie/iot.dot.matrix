@@ -28,6 +28,7 @@ class MyWebSocketServer {
         }
         if (received.latest) {
           const data = await getLatestMessage();
+          if (!data) return;
           const { message } = data;
           ws.send(
             JSON.stringify({
@@ -37,7 +38,7 @@ class MyWebSocketServer {
         }
 
         wss.clients.forEach(function each(client) {
-          if (client !== ws && client.readyState === WebSocketServer.OPEN) {
+          if (client !== ws && client.readyState === client.OPEN) {
             client.send(
               JSON.stringify({
                 broadcast: true,

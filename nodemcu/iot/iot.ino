@@ -50,7 +50,10 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
     case WStype_TEXT:
       USE_SERIAL.printf("[WSc] get text: %s\n", payload);
       char* ca = (char*)payload;
-      strcpy (msg, ca);
+      DynamicJsonDocument doc(1024);
+      deserializeJson(doc, ca);
+      if(!doc["msgs"]) return;
+      strcpy (msg, doc["msgs"]);
       break;
   }
 
