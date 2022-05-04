@@ -5,53 +5,30 @@
 #include <WebSocketsClient.h>
 #include <Hash.h>
 
-#include <MD_Parola.h>
-#include <MD_MAX72xx.h>
-#include <SPI.h>
-
-
-#define MAX_DEVICES 4
-#define CS_PIN 15
-#define HARDWARE_TYPE MD_MAX72XX::FC16_HW
-#define USE_SERIAL Serial
-
-int LED = 5;
-
 ESP8266WiFiMulti WiFiMulti;
 WebSocketsClient webSocket;
-MD_Parola Display = MD_Parola(HARDWARE_TYPE, CS_PIN, MAX_DEVICES);
 
-char msg[120];
+#define USE_SERIAL Serial
+
+int buttonPin = 4;
+int connectionLedPin = 15;
+int sendLedPin = 5;
+bool trigger = false;
 
 void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 
   switch (type) {
     case WStype_DISCONNECTED:
-      {
-        USE_SERIAL.printf("[WSc] Disconnected!\n");
-        digitalWrite(LED, LOW);
-      }
+      USE_SERIAL.printf("[WSc] Disconnected!\n");
       break;
     case WStype_CONNECTED:
       {
-        digitalWrite(LED, HIGH);
         USE_SERIAL.printf("[WSc] Connected to url: %s\n", payload);
-        DynamicJsonDocument doc(1024);
-        doc["latest"] = true;
-        String output;
-        serializeJson(doc, output);
-        webSocket.sendTXT(output);
+        digitalWrite(connectionLedPin, HIGH);
       }
       break;
     case WStype_TEXT:
-      {
-        USE_SERIAL.printf("[WSc] get text: %s\n", payload);
-        char* ca = (char*)payload;
-        DynamicJsonDocument doc(1024);
-        deserializeJson(doc, ca);
-        if (!doc["msgs"]) return;
-        strcpy (msg, doc["msgs"]);
-      }
+      USE_SERIAL.printf("[WSc] get text: %s\n", payload);
       break;
     case WStype_BIN:
       USE_SERIAL.printf("[WSc] get binary length: %u\n", length);
@@ -70,12 +47,12 @@ void webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 void setup() {
   USE_SERIAL.begin(115200);
 
-  USE_SERIAL.println();
-  USE_SERIAL.println();
-  USE_SERIAL.println();
-  USE_SERIAL.println("Basic IoT scrolling text");
+  //Serial.setDebugOutput(true);
+  USE_SERIAL.setDebugOutput(true);
 
-  pinMode(LED, OUTPUT);
+  USE_SERIAL.println();
+  USE_SERIAL.println();
+  USE_SERIAL.println();
 
   for (uint8_t t = 4; t > 0; t--) {
     USE_SERIAL.printf("[SETUP] BOOT WAIT %d...\n", t);
@@ -89,12 +66,9 @@ void setup() {
     delay(100);
   }
 
-  Display.begin();
-  Display.setIntensity(0);
-  Display.displayClear();
-
-  strcpy (msg, "DEFAULT MESSAGE.");
-  Display.displayScroll(msg, PA_RIGHT, PA_SCROLL_LEFT, 150);
+  pinMode(buttonPin, INPUT_PULLUP);
+  pinMode(connectionLedPin, OUTPUT);
+  pinMode(sendLedPin, OUTPUT);
 
   webSocket.begin("172.17.254.8", 3000, "/");
 
@@ -105,7 +79,31 @@ void setup() {
 
 void loop() {
   webSocket.loop();
-  if (Display.displayAnimate()) {
-    Display.displayReset();
+  int sensorVal = digitalRead(buttonPin);
+  sendToWebSocketServer(sensorVal);
+}
+
+
+void sendToWebSocketServer (int sensorVal) {
+  if (sensorVal == HIGH) {
+    if (trigger == false) {
+      digitalWrite(sendLedPin, LOW);
+      trigger = true;
+      delay(10);
+    }
+  } else {
+    if (trigger == true) {
+      digitalWrite(sendLedPin, HIGH);
+      trigger = false;
+
+      DynamicJsonDocument doc(1024);
+      doc["isEmit"] = true;
+      doc["msg"] = "HELLO FROM OTHER NODEMCU";
+      String output;
+      serializeJson(doc, output);
+      webSocket.sendTXT(output);
+
+      delay(10);
+    }
   }
 }
