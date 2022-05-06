@@ -16,7 +16,38 @@ IoT enables companies to automate processes and reduce labor costs. It also cuts
 
 ## :arrow_right_hook: Flow Charts
 
-![alt text](https://github.com/rodentskie/iot.dot.matrix/blob/master/images/iot.drawio.png?raw=true)
+![alt text](https://github.com/rodentskie/iot.dot.matrix/blob/master/images/be.png?raw=true)
+![alt text](https://github.com/rodentskie/iot.dot.matrix/blob/master/images/fe.png?raw=true)
+
+## :copyright: How to Use Locally
+
+### Backend
+
+Prerequisite:
+
+- Docker
+
+```
+cd be
+docker-compose up -d
+npm ci
+npm run dev (development)
+npm start (production)
+```
+
+### Frontend
+
+```
+(development)
+cd fe
+npm run dev
+
+---
+(production)
+cd fe
+npm run build
+npm start
+```
 
 ## References
 
