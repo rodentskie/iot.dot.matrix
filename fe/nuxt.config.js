@@ -48,7 +48,7 @@ export default {
   build: {},
 
   env: {
-    wsHost: 'ws://iot.npcdavao.com/api',
+    wsHost: 'wss://iot.npcdavao.com/api',
   },
 
   server: {
