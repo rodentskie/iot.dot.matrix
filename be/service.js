@@ -4,6 +4,7 @@ const db = require("./data");
 const { Server } = require("http");
 
 let server = new Server();
+let ws = MyWebSocketServer;
 
 const start = async () => {
   const app = new Koa();
@@ -18,15 +19,16 @@ const start = async () => {
     ctx.body = "Welcome IoT.";
   });
 
-  const ws = new MyWebSocketServer(server);
+  ws = new MyWebSocketServer(server);
   ws.start();
 
   return server;
 };
 
 const stop = async () => {
-  await new Promise((resolve) => server.close(resolve));
+  ws.close();
   await db.stop();
+  await new Promise((resolve) => server.close(resolve));
 };
 
 module.exports = {

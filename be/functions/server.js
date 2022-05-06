@@ -4,15 +4,17 @@ const { insertMessage, getLatestMessage } = require("./queries");
 
 class MyWebSocketServer {
   static server;
-
+  static wss;
   constructor(server) {
     this.server = server;
   }
 
   async start() {
-    const wss = new WebSocketServer({ server: this.server });
+    console.log("Starting WebSocket Server ..");
 
-    wss.on("connection", (ws) => {
+    this.wss = new WebSocketServer({ server: this.server });
+
+    this.wss.on("connection", (ws) => {
       console.log("💻 A client has connected.");
       ws.on("message", async (data) => {
         console.log("💬 Received: %s", data);
@@ -37,7 +39,7 @@ class MyWebSocketServer {
           );
         }
 
-        wss.clients.forEach(function each(client) {
+        this.wss.clients.forEach(function each(client) {
           if (client !== ws && client.readyState === client.OPEN) {
             client.send(
               JSON.stringify({
@@ -49,6 +51,24 @@ class MyWebSocketServer {
         });
       });
     });
+  }
+
+  async close() {
+    console.log("Closing WebSocket Server ..");
+
+    this.wss.clients.forEach((socket) => {
+      socket.close();
+    });
+
+    setTimeout(() => {
+      this.wss.clients.forEach((socket) => {
+        if ([socket.OPEN, socket.CLOSING].includes(socket.readyState)) {
+          socket.terminate();
+        }
+      });
+    }, 5000);
+
+    this.wss.close();
   }
 }
 

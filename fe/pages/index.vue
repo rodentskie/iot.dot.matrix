@@ -125,7 +125,6 @@ export default {
     })
 
     this.wsConnection.addEventListener('message', async (msg) => {
-      console.log('msg', msg.data)
       const data = JSON.parse(msg.data)
       const { received, msgs, broadcast } = data
       if (received) {
