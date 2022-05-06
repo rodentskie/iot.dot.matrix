@@ -5,7 +5,7 @@ config();
 
 const start = async () => {
   const uri = process.env.MONGO_URI || "mongodb://localhost/iot";
-
+  console.log(uri);
   await connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
