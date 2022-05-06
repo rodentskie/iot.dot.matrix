@@ -17,8 +17,8 @@ class MyWebSocketServer {
       ws.on("message", async (data) => {
         console.log("💬 Received: %s", data);
         const received = JSON.parse(data);
-        await insertMessage(received.msg);
         if (received.isEmit) {
+          await insertMessage(received.msg);
           ws.send(
             JSON.stringify({
               received: true,
