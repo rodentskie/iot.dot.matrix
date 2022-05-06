@@ -1,7 +1,10 @@
 const { connect, disconnect } = require("mongoose");
+const { config } = require("dotenv");
+
+config();
 
 const start = async () => {
-  const uri = "mongodb://localhost/iot";
+  const uri = process.env.MONGO_URI || "mongodb://localhost/iot";
 
   await connect(uri, {
     useNewUrlParser: true,
