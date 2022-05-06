@@ -4,6 +4,14 @@ The internet of things, or IoT, is a system of interrelated computing devices, m
 
 A “thing” in the internet of things can be a person with a heart monitor implant, a farm animal with a biochip transponder, an automobile that has built-in sensors to alert the driver when tire pressure is low or any other natural or man-made object that can be assigned an Internet Protocol (IP) address and is able to transfer data over a network.
 
+
+## :bulb: How does IoT work??
+
+
+```
+An IoT ecosystem consists of web-enabled smart devices that use embedded systems, such as processors, sensors and communication hardware, to collect, send and act on data they acquire from their environments.
+```
+
 ## References
 
 - [Link](https://www.techtarget.com/iotagenda/definition/Internet-of-Things-IoT)
