@@ -29,7 +29,7 @@ Prerequisite:
 
 ```
 cd be
-docker-compose up -d
+docker-compose -f docker-compose.mongo.yml up -d
 npm ci
 npm run dev (development)
 npm start (production)
