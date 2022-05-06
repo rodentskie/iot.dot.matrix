@@ -7,10 +7,8 @@ A “thing” in the internet of things can be a person with a heart monitor imp
 
 ## :bulb: How does IoT work??
 
-
-```
 An IoT ecosystem consists of web-enabled smart devices that use embedded systems, such as processors, sensors and communication hardware, to collect, send and act on data they acquire from their environments.
-```
+
 
 ## References
 
