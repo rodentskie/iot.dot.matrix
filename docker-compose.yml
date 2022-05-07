@@ -19,7 +19,7 @@ services:
       - mongo
     environment:
       - PORT=3000
-      - MONGO_URI=mongodb://root:example@mongo:27017/onboarding_graphql_test?authSource=admin
+      - MONGO_URI=mongodb://root:example@mongo:27017/iot?authSource=admin
     ports:
       - "3000:3000"
     network_mode: default
