@@ -96,7 +96,9 @@ void setup() {
   strcpy (msg, "DEFAULT MESSAGE.");
   Display.displayScroll(msg, PA_RIGHT, PA_SCROLL_LEFT, 150);
 
-  webSocket.begin("172.17.254.8", 3000, "/");
+  //  webSocket.begin("172.17.254.8", 3000, "/");
+
+  webSocket.beginSSL("api.npcdavao.com", 443, "/");
 
   webSocket.onEvent(webSocketEvent);
 

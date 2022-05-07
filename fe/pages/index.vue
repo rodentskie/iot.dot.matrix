@@ -106,6 +106,7 @@ export default {
       }
       await this.delay(2)
       this.resetToast()
+      this.reconnect()
     })
 
     this.wsConnection.addEventListener('open', async () => {
@@ -139,6 +140,10 @@ export default {
     })
   },
   methods: {
+    reconnect() {
+      console.log('Reconnect to WebSocket Server.')
+      this.wsConnection = new WebSocket(process.env.wsHost)
+    },
     async Emit() {
       this.btnText = 'Loading'
       this.isSubmit = true

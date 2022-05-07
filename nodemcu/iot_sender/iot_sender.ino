@@ -70,7 +70,9 @@ void setup() {
   pinMode(connectionLedPin, OUTPUT);
   pinMode(sendLedPin, OUTPUT);
 
-  webSocket.begin("172.17.254.8", 3000, "/");
+  //  webSocket.begin("172.17.254.8", 3000, "/");
+
+  webSocket.beginSSL("api.npcdavao.com", 443, "/");
 
   webSocket.onEvent(webSocketEvent);
 
