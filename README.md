@@ -26,6 +26,7 @@ IoT enables companies to automate processes and reduce labor costs. It also cuts
 Prerequisite:
 
 - Docker
+- NodeJS
 
 ```
 cd be
