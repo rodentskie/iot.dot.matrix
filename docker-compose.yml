@@ -8,7 +8,8 @@ services:
     restart: always
     ports:
       - "4000:4000"
-    network_mode: default
+    networks:
+      - mynet
   api:
     build:
       context: be
@@ -22,7 +23,8 @@ services:
       - MONGO_URI=mongodb://root:example@mongo:27017/iot?authSource=admin
     ports:
       - "3000:3000"
-    network_mode: default
+    networks:
+      - mynet
   mongo:
     image: mongo:4.4.4-bionic
     ports:
@@ -30,9 +32,9 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
-    network_mode: default
+    networks:
+      - mynet
     container_name: mongo
 networks:
-  default:
-    external:
-      name: bridge
+  mynet:
+    driver: bridge
