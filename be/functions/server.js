@@ -21,13 +21,19 @@ class MyWebSocketServer {
         const received = JSON.parse(data);
         if (received.isEmit) {
           await insertMessage(received.msg);
-          ws.send(
-            JSON.stringify({
-              received: true,
-              msgs: received.msg,
-            })
-          );
+
+          this.wss.clients.forEach(function each(client) {
+            if (client !== ws && client.readyState === client.OPEN) {
+              client.send(
+                JSON.stringify({
+                  broadcast: true,
+                  msgs: received.msg,
+                })
+              );
+            }
+          });
         }
+
         if (received.latest) {
           const data = await getLatestMessage();
           if (!data) return;
@@ -38,17 +44,6 @@ class MyWebSocketServer {
             })
           );
         }
-
-        this.wss.clients.forEach(function each(client) {
-          if (client !== ws && client.readyState === client.OPEN) {
-            client.send(
-              JSON.stringify({
-                broadcast: true,
-                msgs: received.msg,
-              })
-            );
-          }
-        });
       });
     });
   }
